@@ -31,6 +31,9 @@ def test_returns():
     assert result[0] == pytest.approx(0.10)
     assert result[1] == pytest.approx(-5 / 110)
 
+    with pytest.raises(ValueError):
+        returns([0, 100])
+
 
 def test_norm():
     assert norm([3, 4]) == pytest.approx(5)

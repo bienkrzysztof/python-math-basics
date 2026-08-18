@@ -34,6 +34,9 @@ def returns(prices):
         previous = prices[i - 1]
         current = prices[i]
 
+        if previous == 0:
+            raise ValueError("Previous price cannot be zero")
+
         result.append((current - previous) / previous)
 
     return result
