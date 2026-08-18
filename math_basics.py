@@ -25,3 +25,15 @@ def is_prime(n):
         if n % w == 0:
             return False
     return True
+
+
+def returns(prices):
+    result = []
+
+    for i in range(1, len(prices)):
+        previous = prices[i - 1]
+        current = prices[i]
+
+        result.append((current - previous) / previous)
+
+    return result
