@@ -1,6 +1,6 @@
 import pytest
 
-from math_basics import norm, is_prime, mean, variance, std, returns
+from math_basics import norm, is_prime, mean, variance, std, returns, volatility
 
 
 def test_is_prime():
@@ -37,3 +37,18 @@ def test_returns():
 
 def test_norm():
     assert norm([3, 4]) == pytest.approx(5)
+
+
+def test_volatility():
+    prices = [100, 110, 105]
+
+    expected = std(returns(prices))
+
+    assert volatility(prices) == pytest.approx(expected)
+
+    with pytest.raises(ValueError):
+        volatility([])
+
+    with pytest.raises(ValueError):
+        volatility([100])
+        

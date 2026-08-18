@@ -40,3 +40,10 @@ def returns(prices):
         result.append((current - previous) / previous)
 
     return result
+
+
+def volatility(prices):
+    if len(prices) < 2:
+        raise ValueError("At least two prices are required")
+    
+    return std(returns(prices))
