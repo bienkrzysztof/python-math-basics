@@ -15,10 +15,9 @@ def variance(x):
 
 
 def is_prime(n):
-    a = n // 2 + 1
     if n < 2:
         return False
-    for w in range(2, a):
+    for w in range(2, int(n ** 0.5) + 1):
         if n % w == 0:
             return False
     return True
