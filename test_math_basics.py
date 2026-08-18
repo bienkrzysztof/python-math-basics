@@ -1,4 +1,4 @@
-from math_basics import is_prime
+from math_basics import is_prime, mean
 
 
 def test_is_prime():
@@ -6,3 +6,8 @@ def test_is_prime():
     assert is_prime(7) is True
     assert is_prime(10) is False
     assert is_prime(97) is True
+
+
+def test_mean():
+    assert mean([1, 2, 3]) == 2
+    assert mean([10, 20, 30, 40]) == 25
