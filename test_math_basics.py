@@ -1,4 +1,6 @@
-from math_basics import is_prime, mean
+import pytest
+
+from math_basics import is_prime, mean, variance
 
 
 def test_is_prime():
@@ -11,3 +13,8 @@ def test_is_prime():
 def test_mean():
     assert mean([1, 2, 3]) == 2
     assert mean([10, 20, 30, 40]) == 25
+
+
+def test_variance():
+    assert variance([1, 2, 3]) == pytest.approx(2 / 3)
+    assert variance([5, 5, 5, 5]) == 0
