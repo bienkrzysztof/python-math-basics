@@ -14,6 +14,10 @@ def variance(x):
     return sum((value - m) ** 2 for value in x) / len(x)
 
 
+def std(x):
+    return variance(x) ** 0.5
+
+
 def is_prime(n):
     if n < 2:
         return False
