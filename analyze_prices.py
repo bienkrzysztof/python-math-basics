@@ -9,8 +9,9 @@ from math_basics import (
     calmar_ratio,
 )
 
+from load_prices import load_prices
 
-prices = [100, 102, 101, 105, 103, 108, 104, 110]
+prices = load_prices("prices.csv")
 
 daily_returns = returns(prices)
 
