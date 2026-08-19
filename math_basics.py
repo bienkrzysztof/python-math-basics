@@ -47,3 +47,7 @@ def volatility(prices):
         raise ValueError("At least two prices are required")
     
     return std(returns(prices))
+
+
+def annualized_volatility(prices):
+    return volatility(prices) * (252 ** 0.5)

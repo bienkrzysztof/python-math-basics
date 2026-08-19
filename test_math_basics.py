@@ -1,6 +1,6 @@
 import pytest
 
-from math_basics import norm, is_prime, mean, variance, std, returns, volatility
+from math_basics import norm, is_prime, mean, variance, std, returns, volatility, annualized_volatility
 
 
 def test_is_prime():
@@ -51,4 +51,12 @@ def test_volatility():
 
     with pytest.raises(ValueError):
         volatility([100])
-        
+
+
+def test_annualized_volatility():
+    prices = [100, 110, 105]
+
+    expected = volatility(prices) * (252 ** 0.5)
+
+    assert annualized_volatility(prices) == pytest.approx(expected)
+    
