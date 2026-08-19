@@ -51,3 +51,13 @@ def volatility(prices):
 
 def annualized_volatility(prices):
     return volatility(prices) * (252 ** 0.5)
+
+
+def sharpe_ratio(prices, risk_free_rate = 0):
+    daily_returns = returns(prices)
+    volatility_value = std(daily_returns)
+
+    if volatility_value == 0:
+        raise ValueError("Volatility cannot be zero")
+    
+    return (mean(daily_returns) - risk_free_rate) / volatility_value

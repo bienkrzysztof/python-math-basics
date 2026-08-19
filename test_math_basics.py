@@ -1,6 +1,6 @@
 import pytest
 
-from math_basics import norm, is_prime, mean, variance, std, returns, volatility, annualized_volatility
+from math_basics import norm, is_prime, mean, variance, std, returns, volatility, annualized_volatility, sharpe_ratio
 
 
 def test_is_prime():
@@ -59,4 +59,20 @@ def test_annualized_volatility():
     expected = volatility(prices) * (252 ** 0.5)
 
     assert annualized_volatility(prices) == pytest.approx(expected)
-    
+
+
+def test_sharpe_ratio():
+    prices = [100, 110, 105]
+
+    daily_returns = returns(prices)
+    expected = mean(daily_returns) / std(daily_returns)
+
+    assert sharpe_ratio(prices) == pytest.approx(expected)
+
+    expected_with_rf = (mean(daily_returns) - 0.01) / std(daily_returns)
+
+    assert sharpe_ratio(prices, risk_free_rate=0.01) == pytest.approx(expected_with_rf)
+
+    with pytest.raises(ValueError):
+        sharpe_ratio([100, 100, 100])
+        
