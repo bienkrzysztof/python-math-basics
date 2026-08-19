@@ -6,6 +6,7 @@ from math_basics import (
     sharpe_ratio,
     annualized_sharpe_ratio,
     max_drawdown,
+    calmar_ratio,
 )
 
 
@@ -25,3 +26,4 @@ print(f"Annualized volatility: {annualized_volatility(prices):.2%}")
 print(f"Sharpe ratio: {sharpe_ratio(prices):.2f}")
 print(f"Annualized Sharpe: {annualized_sharpe_ratio(prices):.2f}")
 print(f"Maximum drawdown: {max_drawdown(prices):.2%}")
+print(f"Calmar ratio: {calmar_ratio(prices):.2f}")

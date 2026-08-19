@@ -19,4 +19,5 @@ def test_analyze_prices():
     assert "Sharpe ratio:" in output
     assert "Annualized Sharpe:" in output
     assert "Maximum drawdown:" in output
+    assert "Calmar ratio:" in output
     

@@ -83,3 +83,17 @@ def max_drawdown(prices):
             max_dd = drawdown
 
     return max_dd
+
+
+def calmar_ratio(prices):
+    if len(prices) < 2:
+        raise ValueError("At least two prices are required")
+
+    drawdown = abs(max_drawdown(prices))
+
+    if drawdown == 0:
+        raise ValueError("Maximum drawdown cannot be zero")
+
+    annualized_return = (prices[-1] / prices[0]) ** (252 / (len(prices) - 1)) - 1
+
+    return annualized_return / drawdown
