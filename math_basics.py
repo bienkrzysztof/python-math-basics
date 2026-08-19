@@ -65,3 +65,21 @@ def sharpe_ratio(prices, risk_free_rate=0):
 
 def annualized_sharpe_ratio(prices, risk_free_rate=0):
     return sharpe_ratio(prices, risk_free_rate) * (252 ** 0.5)
+
+
+def max_drawdown(prices):
+    if not prices:
+        raise ValueError("Prices cannot be empty")
+    peak = prices[0]
+    max_dd = 0
+
+    for price in prices:
+        if price > peak:
+            peak = price
+
+        drawdown = (price - peak) / peak
+
+        if drawdown < max_dd:
+            max_dd = drawdown
+
+    return max_dd

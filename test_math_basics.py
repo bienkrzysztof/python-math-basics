@@ -1,6 +1,6 @@
 import pytest
 
-from math_basics import norm, is_prime, mean, variance, std, returns, volatility, annualized_volatility, sharpe_ratio, annualized_sharpe_ratio
+from math_basics import norm, is_prime, mean, variance, std, returns, volatility, annualized_volatility, sharpe_ratio, annualized_sharpe_ratio, max_drawdown
 
 
 def test_is_prime():
@@ -83,4 +83,16 @@ def test_annualized_sharpe_ratio():
     expected = sharpe_ratio(prices) * (252 ** 0.5)
 
     assert annualized_sharpe_ratio(prices) == pytest.approx(expected)
-    
+
+
+def test_max_drawdown():
+    prices = [100, 120, 90, 110]
+
+    assert max_drawdown(prices) == pytest.approx(-0.25)
+
+    prices = [100, 120, 90, 130, 100]
+
+    assert max_drawdown(prices) == pytest.approx(-0.25)
+
+    with pytest.raises(ValueError):
+        max_drawdown([])
