@@ -39,6 +39,43 @@ def analyze_signals(signals):
 
     return results
 
+
+def create_signal_report(results):
+    report = pd.DataFrame({
+        "signal": ["crossover", "crossunder"],
+        "count": [
+            results["crossover_count"],
+            results["crossunder_count"],
+        ],
+        "mean_return": [
+            results["crossover_mean"],
+            results["crossunder_mean"],
+        ],
+        "median_return": [
+            results["crossover_median"],
+            results["crossunder_median"],
+        ],
+        "win_rate": [
+            results["crossover_win_rate"],
+            results["crossunder_win_rate"],
+        ],
+        "wins": [
+            results["crossover_wins"],
+            results["crossunder_wins"],
+        ],
+        "losses": [
+            results["crossover_losses"],
+            results["crossunder_losses"],
+        ],
+        "neutral": [
+            results["crossover_neutral"],
+            results["crossunder_neutral"],
+        ],
+    })
+
+    return report
+
+
 df = pd.DataFrame({
     "date": range(30),
     "price": [
@@ -54,49 +91,30 @@ signals = df[df["signal"] != ""]
 
 results = analyze_signals(signals)
 
-print("Signal analysis")
-print("--------------")
+report = create_signal_report(results)
 
-print("Crossover")
-print(
-    f"  Mean return: {results['crossover_mean']:.2%}"
-)
-print(
-    f"  Median return: {results['crossover_median']:.2%}"
-)
-print(
-    f"  Win rate:    {results['crossover_win_rate']:.2%}"
-)
-print(
-    f"  Wins:         {results['crossover_wins']}"
-)
-print(
-    f"  Losses:       {results['crossover_losses']}"
-)
-print(
-    f"  Neutral:      {results['crossover_neutral']}"
-)
+formatted_report = report.copy()
 
-print("Crossunder")
-print(
-    f"  Mean return: {results['crossunder_mean']:.2%}"
-)
-print(
-    f"  Median return: {results['crossunder_median']:.2%}"
-)
-print(
-    f"  Win rate:    {results['crossunder_win_rate']:.2%}"
-)
-print(
-    f"  Wins:         {results['crossunder_wins']}"
-)
-print(
-    f"  Losses:       {results['crossunder_losses']}"
-)
-print(
-    f"  Neutral:      {results['crossunder_neutral']}"
-)
+formatted_report["mean_return"] = formatted_report[
+    "mean_return"
+].map(lambda value: f"{value:.2%}")
 
+formatted_report["median_return"] = formatted_report[
+    "median_return"
+].map(lambda value: f"{value:.2%}")
+
+formatted_report["win_rate"] = formatted_report[
+    "win_rate"
+].map(lambda value: f"{value:.2%}")
+
+print()
+print("Signal report:")
+print(formatted_report)
+
+
+print()
+print("Individual signals")
+print("-----------------")
 print(
     signals[
         ["price", "ma3", "ma5", "signal", "future_return_3"]
