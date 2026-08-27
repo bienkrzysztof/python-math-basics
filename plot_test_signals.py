@@ -76,74 +76,81 @@ def create_signal_report(results):
     return report
 
 
-df = pd.DataFrame({
-    "date": range(30),
-    "price": [
-        100, 110, 90, 80, 120, 130, 70, 60, 140, 150,
-        100, 90, 80, 70, 60, 50, 70, 90, 110, 130,
-        120, 110, 100, 90, 80, 100, 120, 140, 160, 180,
-    ],
-})
+def main():
+    df = pd.DataFrame({
+        "date": range(30),
+        "price": [
+            100, 110, 90, 80, 120, 130, 70, 60, 140, 150,
+            100, 90, 80, 70, 60, 50, 70, 90, 110, 130,
+            120, 110, 100, 90, 80, 100, 120, 140, 160, 180,
+        ],
+    })
 
-df = prepare_plot_data(df)
+    df = prepare_plot_data(df)
 
-signals = df[df["signal"] != ""]
+    signals = df[df["signal"] != ""]
 
-results = analyze_signals(signals)
+    results = analyze_signals(signals)
 
-report = create_signal_report(results)
+    report = create_signal_report(results)
 
-formatted_report = report.copy()
+    formatted_report = report.copy()
 
-formatted_report["mean_return"] = formatted_report[
-    "mean_return"
-].map(lambda value: f"{value:.2%}")
+    formatted_report["mean_return"] = formatted_report[
+        "mean_return"
+    ].map(lambda value: f"{value:.2%}")
 
-formatted_report["median_return"] = formatted_report[
-    "median_return"
-].map(lambda value: f"{value:.2%}")
+    formatted_report["median_return"] = formatted_report[
+        "median_return"
+    ].map(lambda value: f"{value:.2%}")
 
-formatted_report["win_rate"] = formatted_report[
-    "win_rate"
-].map(lambda value: f"{value:.2%}")
+    formatted_report["win_rate"] = formatted_report[
+        "win_rate"
+    ].map(lambda value: f"{value:.2%}")
 
-print()
-print("Signal report:")
-print(formatted_report)
+    print()
+    print("Signal report:")
+    print(formatted_report)
 
 
-print()
-print("Individual signals")
-print("-----------------")
-print(
-    signals[
-        ["price", "ma3", "ma5", "signal", "future_return_3"]
-    ]
-)
+    print()
+    print("Individual signals")
+    print("-----------------")
+    print(
+        signals[
+            ["price", "ma3", "ma5", "signal", "future_return_3"]
+        ]
+    )
 
-plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(10, 5))
 
-plt.plot(df["date"], df["price"])
-plt.plot(df["date"], df["ma3"])
-plt.plot(df["date"], df["ma5"])
+    plt.plot(df["date"], df["price"])
+    plt.plot(df["date"], df["ma3"])
+    plt.plot(df["date"], df["ma5"])
 
-plt.scatter(
-    df.loc[df["crossover"], "date"],
-    df.loc[df["crossover"], "ma3"],
-    marker="^",
-)
+    plt.scatter(
+        df.loc[df["crossover"], "date"],
+        df.loc[df["crossover"], "ma3"],
+        marker="^",
+    )
 
-plt.scatter(
-    df.loc[df["crossunder"], "date"],
-    df.loc[df["crossunder"], "ma3"],
-    marker="v",
-)
+    plt.scatter(
+        df.loc[df["crossunder"], "date"],
+        df.loc[df["crossunder"], "ma3"],
+        marker="v",
+    )
 
-plt.legend(["Price", "MA3", "MA5"])
+    plt.legend(["Price", "MA3", "MA5"])
 
-plt.title("Crossover / Crossunder")
-plt.xlabel("Observation")
-plt.ylabel("Price")
+    plt.title("Crossover / Crossunder")
+    plt.xlabel("Observation")
+    plt.ylabel("Price")
 
-plt.tight_layout()
-plt.show()
+    plt.tight_layout()
+    plt.show()
+
+
+
+if __name__ == "__main__":
+    main()
+    
