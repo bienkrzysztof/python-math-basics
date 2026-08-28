@@ -87,6 +87,35 @@ def create_test_data():
     })
 
 
+def plot_signals(df):
+    plt.figure(figsize=(10, 5))
+
+    plt.plot(df["date"], df["price"])
+    plt.plot(df["date"], df["ma3"])
+    plt.plot(df["date"], df["ma5"])
+
+    plt.scatter(
+        df.loc[df["crossover"], "date"],
+        df.loc[df["crossover"], "ma3"],
+        marker="^",
+    )
+
+    plt.scatter(
+        df.loc[df["crossunder"], "date"],
+        df.loc[df["crossunder"], "ma3"],
+        marker="v",
+    )
+
+    plt.legend(["Price", "MA3", "MA5"])
+
+    plt.title("Crossover / Crossunder")
+    plt.xlabel("Observation")
+    plt.ylabel("Price")
+
+    plt.tight_layout()
+    plt.show()
+
+
 def main():
     df = create_test_data()
 
@@ -126,33 +155,7 @@ def main():
         ]
     )
 
-    plt.figure(figsize=(10, 5))
-
-    plt.plot(df["date"], df["price"])
-    plt.plot(df["date"], df["ma3"])
-    plt.plot(df["date"], df["ma5"])
-
-    plt.scatter(
-        df.loc[df["crossover"], "date"],
-        df.loc[df["crossover"], "ma3"],
-        marker="^",
-    )
-
-    plt.scatter(
-        df.loc[df["crossunder"], "date"],
-        df.loc[df["crossunder"], "ma3"],
-        marker="v",
-    )
-
-    plt.legend(["Price", "MA3", "MA5"])
-
-    plt.title("Crossover / Crossunder")
-    plt.xlabel("Observation")
-    plt.ylabel("Price")
-
-    plt.tight_layout()
-    plt.show()
-
+    plot_signals(df)
 
 
 if __name__ == "__main__":
