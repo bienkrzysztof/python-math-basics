@@ -76,8 +76,8 @@ def create_signal_report(results):
     return report
 
 
-def main():
-    df = pd.DataFrame({
+def create_test_data():
+    return pd.DataFrame({
         "date": range(30),
         "price": [
             100, 110, 90, 80, 120, 130, 70, 60, 140, 150,
@@ -85,6 +85,10 @@ def main():
             120, 110, 100, 90, 80, 100, 120, 140, 160, 180,
         ],
     })
+
+
+def main():
+    df = create_test_data()
 
     df = prepare_plot_data(df)
 
