@@ -76,6 +76,24 @@ def create_signal_report(results):
     return report
 
 
+def format_signal_report(report):
+    formatted_report = report.copy()
+
+    formatted_report["mean_return"] = formatted_report[
+        "mean_return"
+    ].map(lambda value: f"{value:.2%}")
+
+    formatted_report["median_return"] = formatted_report[
+        "median_return"
+    ].map(lambda value: f"{value:.2%}")
+
+    formatted_report["win_rate"] = formatted_report[
+        "win_rate"
+    ].map(lambda value: f"{value:.2%}")
+
+    return formatted_report
+
+
 def create_test_data():
     return pd.DataFrame({
         "date": range(30),
@@ -127,19 +145,7 @@ def main():
 
     report = create_signal_report(results)
 
-    formatted_report = report.copy()
-
-    formatted_report["mean_return"] = formatted_report[
-        "mean_return"
-    ].map(lambda value: f"{value:.2%}")
-
-    formatted_report["median_return"] = formatted_report[
-        "median_return"
-    ].map(lambda value: f"{value:.2%}")
-
-    formatted_report["win_rate"] = formatted_report[
-        "win_rate"
-    ].map(lambda value: f"{value:.2%}")
+    formatted_report = format_signal_report(report)
 
     print()
     print("Signal report:")
