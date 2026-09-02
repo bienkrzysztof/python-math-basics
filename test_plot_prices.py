@@ -54,3 +54,16 @@ def test_crossover_and_crossunder():
 
     assert result.loc[result["crossover"], "price"].tolist() == [130, 150]
     assert result.loc[result["crossunder"], "price"].tolist() == [60]
+
+    assert result["signal"].tolist() == [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "crossover",
+        "",
+        "crossunder",
+        "",
+        "crossover",
+    ]
