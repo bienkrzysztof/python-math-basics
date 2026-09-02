@@ -308,3 +308,75 @@ def test_analyze_signals_profit_factor_only_neutral():
     result = analyze_signals(signals)
 
     assert pd.isna(result["crossover_profit_factor"])
+
+
+def test_analyze_signals_expectancy():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            0.10,
+            0.05,
+            -0.04,
+            -0.03,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_expectancy"] == pytest.approx(0.02)
+
+
+def test_analyze_signals_expectancy_without_wins():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            -0.05,
+            -0.10,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_expectancy"] == pytest.approx(-0.075)
+
+
+def test_analyze_signals_expectancy_without_losses():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            0.10,
+            0.05,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_expectancy"] == pytest.approx(0.075)
+
+
+def test_analyze_signals_expectancy_only_neutral():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            0.0,
+            0.0,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert pd.isna(result["crossover_expectancy"])

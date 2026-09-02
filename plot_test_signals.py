@@ -27,6 +27,27 @@ def calculate_profit_factor(returns):
     return gross_profit / abs(gross_loss)
 
 
+def calculate_expectancy(returns):
+    wins = returns[returns > 0]
+    losses = returns[returns < 0]
+
+    total = len(wins) + len(losses)
+
+    if total == 0:
+        return float("nan")
+
+    win_probability = len(wins) / total
+    loss_probability = len(losses) / total
+
+    average_win = wins.mean() if len(wins) > 0 else 0
+    average_loss = abs(losses.mean()) if len(losses) > 0 else 0
+
+    return (
+        win_probability * average_win
+        - loss_probability * average_loss
+    )
+
+
 def analyze_signals(signals):
     crossover_returns = signals.loc[
         (signals["signal"] == "crossover")
@@ -57,6 +78,13 @@ def analyze_signals(signals):
             crossover_returns
         ),
         "crossunder_profit_factor": calculate_profit_factor(
+            crossunder_returns
+        ),
+
+        "crossover_expectancy": calculate_expectancy(
+            crossover_returns
+        ),
+        "crossunder_expectancy": calculate_expectancy(
             crossunder_returns
         ),
 
