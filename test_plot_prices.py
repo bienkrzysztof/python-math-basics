@@ -67,3 +67,23 @@ def test_crossover_and_crossunder():
         "",
         "crossover",
     ]
+
+
+def test_future_return_3():
+    df = pd.DataFrame({
+        "price": [100, 110, 120, 130, 140, 150]
+    })
+
+    result = prepare_plot_data(df)
+
+    assert result["future_price_3"].iloc[0] == pytest.approx(130)
+    assert result["future_price_3"].iloc[1] == pytest.approx(140)
+    assert result["future_price_3"].iloc[2] == pytest.approx(150)
+
+    assert result["future_return_3"].iloc[0] == pytest.approx(0.30)
+    assert result["future_return_3"].iloc[1] == pytest.approx(30 / 110)
+    assert result["future_return_3"].iloc[2] == pytest.approx(0.25)
+
+    assert pd.isna(result["future_return_3"].iloc[3])
+    assert pd.isna(result["future_return_3"].iloc[4])
+    assert pd.isna(result["future_return_3"].iloc[5])

@@ -6,12 +6,14 @@ from plot_prices import prepare_plot_data
 
 def analyze_signals(signals):
     crossover_returns = signals.loc[
-        signals["signal"] == "crossover",
+        (signals["signal"] == "crossover")
+        & signals["future_return_3"].notna(),
         "future_return_3"
     ]
 
     crossunder_returns = signals.loc[
-        signals["signal"] == "crossunder",
+        (signals["signal"] == "crossunder")
+        & signals["future_return_3"].notna(),
         "future_return_3"
     ]
 
