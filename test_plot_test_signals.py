@@ -202,3 +202,26 @@ def test_analyze_signals_ignores_missing_future_returns():
     assert result["crossunder_wins"] == 0
     assert result["crossunder_losses"] == 1
     assert result["crossunder_neutral"] == 0
+
+
+def test_analyze_signals_win_loss_neutral():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            0.10,
+            0.0,
+            -0.05,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_count"] == 3
+    assert result["crossover_wins"] == 1
+    assert result["crossover_losses"] == 1
+    assert result["crossover_neutral"] == 1
+    assert result["crossover_win_rate"] == pytest.approx(1 / 3)
