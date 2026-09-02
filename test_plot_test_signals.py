@@ -146,4 +146,21 @@ def test_plot_signals():
 
     assert len(fig.axes) == 1
 
+    ax = fig.axes[0]
+
+    assert len(ax.lines) == 3
+
+    assert ax.get_title() == "Crossover / Crossunder"
+    assert ax.get_xlabel() == "Observation"
+    assert ax.get_ylabel() == "Price"
+
+    assert [line.get_label() for line in ax.get_lines()] == [
+        "Price",
+        "MA3",
+        "MA5",
+    ]
+
+    assert ax.collections[0].get_offsets().shape == (4, 2)
+    assert ax.collections[1].get_offsets().shape == (3, 2)
+
     plt.close(fig)

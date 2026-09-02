@@ -108,9 +108,9 @@ def create_test_data():
 def plot_signals(df):
     plt.figure(figsize=(10, 5))
 
-    plt.plot(df["date"], df["price"])
-    plt.plot(df["date"], df["ma3"])
-    plt.plot(df["date"], df["ma5"])
+    plt.plot(df["date"], df["price"], label="Price")
+    plt.plot(df["date"], df["ma3"], label="MA3")
+    plt.plot(df["date"], df["ma5"], label="MA5")
 
     plt.scatter(
         df.loc[df["crossover"], "date"],
@@ -124,7 +124,7 @@ def plot_signals(df):
         marker="v",
     )
 
-    plt.legend(["Price", "MA3", "MA5"])
+    plt.legend()
 
     plt.title("Crossover / Crossunder")
     plt.xlabel("Observation")
