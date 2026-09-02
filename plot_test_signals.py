@@ -4,6 +4,16 @@ import pandas as pd
 from plot_prices import prepare_plot_data
 
 
+def calculate_win_rate(returns):
+    wins = (returns > 0).sum()
+    losses = (returns < 0).sum()
+
+    if wins + losses == 0:
+        return float("nan")
+
+    return wins / (wins + losses)
+
+
 def analyze_signals(signals):
     crossover_returns = signals.loc[
         (signals["signal"] == "crossover")
@@ -27,8 +37,8 @@ def analyze_signals(signals):
         "crossover_median": crossover_returns.median(),
         "crossunder_median": crossunder_returns.median(),
 
-        "crossover_win_rate": (crossover_returns > 0).mean(),
-        "crossunder_win_rate": (crossunder_returns > 0).mean(),
+        "crossover_win_rate": calculate_win_rate(crossover_returns),
+        "crossunder_win_rate": calculate_win_rate(crossunder_returns),
 
         "crossover_wins": (crossover_returns > 0).sum(),
         "crossover_losses": (crossover_returns < 0).sum(),

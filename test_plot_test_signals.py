@@ -46,7 +46,7 @@ def test_analyze_signals():
     assert result["crossunder_neutral"] == 1
 
     assert result["crossover_win_rate"] == 0.5
-    assert result["crossunder_win_rate"] == 0.5
+    assert result["crossunder_win_rate"] == 1.0
 
 
 def test_create_signal_report():
@@ -224,4 +224,15 @@ def test_analyze_signals_win_loss_neutral():
     assert result["crossover_wins"] == 1
     assert result["crossover_losses"] == 1
     assert result["crossover_neutral"] == 1
-    assert result["crossover_win_rate"] == pytest.approx(1 / 3)
+    assert result["crossover_win_rate"] == pytest.approx(1 / 2)
+
+
+def test_analyze_signals_no_wins_or_losses():
+    signals = pd.DataFrame({
+        "signal": ["crossover"],
+        "future_return_3": [0.0],
+    })
+
+    result = analyze_signals(signals)
+
+    assert pd.isna(result["crossover_win_rate"])
