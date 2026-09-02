@@ -131,7 +131,8 @@ def plot_signals(df):
     plt.ylabel("Price")
 
     plt.tight_layout()
-    plt.show()
+
+    return plt.gcf()
 
 
 def main():
@@ -161,7 +162,8 @@ def main():
         ]
     )
 
-    plot_signals(df)
+    fig = plot_signals(df)
+    plt.show()
 
 
 if __name__ == "__main__":

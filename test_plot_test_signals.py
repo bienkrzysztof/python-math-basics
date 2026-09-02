@@ -1,9 +1,14 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+
+from plot_prices import prepare_plot_data
 
 from plot_test_signals import (
     analyze_signals,
     create_signal_report,
     format_signal_report,
+    create_test_data,
+    plot_signals,
 )
 
 
@@ -118,3 +123,27 @@ def test_format_signal_report():
         "75.00%",
         "33.33%",
     ]
+
+
+def test_create_test_data():
+    result = create_test_data()
+
+    assert len(result) == 30
+    assert list(result.columns) == ["date", "price"]
+
+    assert result["date"].iloc[0] == 0
+    assert result["date"].iloc[-1] == 29
+
+    assert result["price"].iloc[0] == 100
+    assert result["price"].iloc[-1] == 180
+
+
+def test_plot_signals():
+    df = create_test_data()
+    df = prepare_plot_data(df)
+
+    fig = plot_signals(df)
+
+    assert len(fig.axes) == 1
+
+    plt.close(fig)
