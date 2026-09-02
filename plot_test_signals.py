@@ -14,6 +14,19 @@ def calculate_win_rate(returns):
     return wins / (wins + losses)
 
 
+def calculate_profit_factor(returns):
+    gross_profit = returns[returns > 0].sum()
+    gross_loss = returns[returns < 0].sum()
+
+    if gross_loss == 0:
+        if gross_profit > 0:
+            return float("inf")
+
+        return float("nan")
+
+    return gross_profit / abs(gross_loss)
+
+
 def analyze_signals(signals):
     crossover_returns = signals.loc[
         (signals["signal"] == "crossover")
@@ -39,6 +52,13 @@ def analyze_signals(signals):
 
         "crossover_win_rate": calculate_win_rate(crossover_returns),
         "crossunder_win_rate": calculate_win_rate(crossunder_returns),
+
+        "crossover_profit_factor": calculate_profit_factor(
+            crossover_returns
+        ),
+        "crossunder_profit_factor": calculate_profit_factor(
+            crossunder_returns
+        ),
 
         "crossover_wins": (crossover_returns > 0).sum(),
         "crossover_losses": (crossover_returns < 0).sum(),
