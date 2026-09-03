@@ -48,6 +48,19 @@ def calculate_expectancy(returns):
     )
 
 
+def calculate_max_drawdown(returns):
+    if len(returns) == 0:
+        return float("nan")
+
+    equity = pd.concat([pd.Series([1.0]), 1 + returns]).cumprod()
+
+    running_max = equity.cummax()
+
+    drawdown = equity / running_max - 1
+
+    return abs(drawdown.min())
+
+
 def analyze_signals(signals):
     crossover_returns = signals.loc[
         (signals["signal"] == "crossover")
@@ -85,6 +98,13 @@ def analyze_signals(signals):
             crossover_returns
         ),
         "crossunder_expectancy": calculate_expectancy(
+            crossunder_returns
+        ),
+
+        "crossover_max_drawdown": calculate_max_drawdown(
+            crossover_returns
+        ),
+        "crossunder_max_drawdown": calculate_max_drawdown(
             crossunder_returns
         ),
 

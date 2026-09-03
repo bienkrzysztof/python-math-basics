@@ -380,3 +380,117 @@ def test_analyze_signals_expectancy_only_neutral():
     result = analyze_signals(signals)
 
     assert pd.isna(result["crossover_expectancy"])
+
+
+def test_analyze_signals_max_drawdown():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            0.10,
+            -0.05,
+            -0.10,
+            0.05,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_max_drawdown"] == pytest.approx(0.145)
+
+
+def test_analyze_signals_max_drawdown_without_losses():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            0.05,
+            0.10,
+            0.03,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_max_drawdown"] == pytest.approx(0.0)
+
+
+def test_analyze_signals_max_drawdown_with_only_losses():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            -0.05,
+            -0.10,
+            -0.03,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_max_drawdown"] == pytest.approx(0.17065)
+
+
+def test_analyze_signals_max_drawdown_after_recovery():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            0.10,
+            -0.05,
+            -0.10,
+            0.05,
+            0.02,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_max_drawdown"] == pytest.approx(0.145)
+
+
+def test_analyze_signals_max_drawdown_with_new_peak():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            0.10,
+            -0.05,
+            0.10,
+            -0.05,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_max_drawdown"] == pytest.approx(0.05)
+
+
+def test_analyze_signals_max_drawdown_with_empty_returns():
+    signals = pd.DataFrame({
+        "signal": [],
+        "future_return_3": [],
+    })
+
+    result = analyze_signals(signals)
+
+    assert pd.isna(result["crossover_max_drawdown"])
