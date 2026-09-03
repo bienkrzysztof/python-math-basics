@@ -79,6 +79,19 @@ def calculate_average_loss(returns):
     return abs(losses.mean())
 
 
+def calculate_payoff_ratio(returns):
+    average_win = calculate_average_win(returns)
+    average_loss = calculate_average_loss(returns)
+
+    if pd.isna(average_win):
+        return float("nan")
+
+    if pd.isna(average_loss):
+        return float("inf")
+
+    return average_win / average_loss
+
+
 def analyze_signals(signals):
     crossover_returns = signals.loc[
         (signals["signal"] == "crossover")
@@ -145,6 +158,12 @@ def analyze_signals(signals):
             crossunder_returns
         ),
         "crossunder_average_loss": calculate_average_loss(
+            crossunder_returns
+        ),
+        "crossover_payoff_ratio": calculate_payoff_ratio(
+            crossover_returns
+        ),
+        "crossunder_payoff_ratio": calculate_payoff_ratio(
             crossunder_returns
         ),
     }

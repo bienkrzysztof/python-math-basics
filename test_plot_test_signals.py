@@ -574,3 +574,75 @@ def test_analyze_signals_crossunder_average_win_and_loss():
 
     assert result["crossunder_average_win"] == pytest.approx(0.06)
     assert result["crossunder_average_loss"] == pytest.approx(0.04)
+
+
+def test_analyze_signals_payoff_ratio():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            0.10,
+            0.05,
+            -0.04,
+            -0.06,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_payoff_ratio"] == pytest.approx(1.5)
+
+
+def test_analyze_signals_payoff_ratio_without_losses():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            0.04,
+            0.06,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_payoff_ratio"] == float("inf")
+
+
+def test_analyze_signals_payoff_ratio_without_wins():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            -0.04,
+            -0.06,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert pd.isna(result["crossover_payoff_ratio"])
+
+
+def test_analyze_signals_payoff_ratio_without_wins_and_losses():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            0.0,
+            0.0,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert pd.isna(result["crossover_payoff_ratio"])
