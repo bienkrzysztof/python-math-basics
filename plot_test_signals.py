@@ -61,6 +61,24 @@ def calculate_max_drawdown(returns):
     return abs(drawdown.min())
 
 
+def calculate_average_win(returns):
+    wins = returns[returns > 0]
+
+    if len(wins) == 0:
+        return float("nan")
+
+    return wins.mean()
+
+
+def calculate_average_loss(returns):
+    losses = returns[returns < 0]
+
+    if len(losses) == 0:
+        return float("nan")
+
+    return abs(losses.mean())
+
+
 def analyze_signals(signals):
     crossover_returns = signals.loc[
         (signals["signal"] == "crossover")
@@ -115,6 +133,20 @@ def analyze_signals(signals):
         "crossunder_wins": (crossunder_returns > 0).sum(),
         "crossunder_losses": (crossunder_returns < 0).sum(),
         "crossunder_neutral": (crossunder_returns == 0).sum(),
+
+        "crossover_average_win": calculate_average_win(
+            crossover_returns
+        ),
+        "crossover_average_loss": calculate_average_loss(
+            crossover_returns
+        ),
+
+        "crossunder_average_win": calculate_average_win(
+            crossunder_returns
+        ),
+        "crossunder_average_loss": calculate_average_loss(
+            crossunder_returns
+        ),
     }
 
     return results
