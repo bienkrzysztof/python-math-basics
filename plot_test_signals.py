@@ -201,6 +201,9 @@ def analyze_signals(signals):
 
         "crossover_trade_count": len(crossover_returns),
         "crossunder_trade_count": len(crossunder_returns),
+
+        "crossover_return_std": crossover_returns.std(),
+        "crossunder_return_std": crossunder_returns.std(),
     }
 
     return results
