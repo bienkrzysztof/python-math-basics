@@ -213,6 +213,9 @@ def analyze_signals(signals):
 
         "crossunder_best_return": crossunder_returns.max(),
         "crossunder_worst_return": crossunder_returns.min(),
+
+        "crossover_total_return": crossover_returns.sum(),
+        "crossunder_total_return": crossunder_returns.sum(),
     }
 
     return results
