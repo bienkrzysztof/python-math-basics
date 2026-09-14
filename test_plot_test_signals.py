@@ -669,3 +669,25 @@ def test_analyze_signals_median_win_and_loss():
 
     assert result["crossover_median_win"] == pytest.approx(0.075)
     assert result["crossover_median_loss"] == pytest.approx(0.05)
+
+
+def test_analyze_signals_trade_count():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+            "crossunder",
+        ],
+        "future_return_3": [
+            0.10,
+            0.05,
+            -0.04,
+            -0.06,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_trade_count"] == 3
+    assert result["crossunder_trade_count"] == 1

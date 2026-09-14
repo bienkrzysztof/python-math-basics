@@ -198,6 +198,9 @@ def analyze_signals(signals):
         "crossunder_median_loss": calculate_median_loss(
             crossunder_returns
         ),
+
+        "crossover_trade_count": len(crossover_returns),
+        "crossunder_trade_count": len(crossunder_returns),
     }
 
     return results
