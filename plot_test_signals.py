@@ -79,6 +79,24 @@ def calculate_average_loss(returns):
     return abs(losses.mean())
 
 
+def calculate_median_win(returns):
+    wins = returns[returns > 0]
+
+    if len(wins) == 0:
+        return float("nan")
+
+    return wins.median()
+
+
+def calculate_median_loss(returns):
+    losses = returns[returns < 0]
+
+    if len(losses) == 0:
+        return float("nan")
+
+    return abs(losses.median())
+
+
 def calculate_payoff_ratio(returns):
     average_win = calculate_average_win(returns)
     average_loss = calculate_average_loss(returns)
@@ -164,6 +182,20 @@ def analyze_signals(signals):
             crossover_returns
         ),
         "crossunder_payoff_ratio": calculate_payoff_ratio(
+            crossunder_returns
+        ),
+
+        "crossover_median_win": calculate_median_win(
+            crossover_returns
+        ),
+        "crossover_median_loss": calculate_median_loss(
+            crossover_returns
+        ),
+
+        "crossunder_median_win": calculate_median_win(
+            crossunder_returns
+        ),
+        "crossunder_median_loss": calculate_median_loss(
             crossunder_returns
         ),
     }

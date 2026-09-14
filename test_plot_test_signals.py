@@ -646,3 +646,26 @@ def test_analyze_signals_payoff_ratio_without_wins_and_losses():
     result = analyze_signals(signals)
 
     assert pd.isna(result["crossover_payoff_ratio"])
+
+
+
+def test_analyze_signals_median_win_and_loss():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+            "crossover",
+        ],
+        "future_return_3": [
+            0.10,
+            0.05,
+            -0.04,
+            -0.06,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_median_win"] == pytest.approx(0.075)
+    assert result["crossover_median_loss"] == pytest.approx(0.05)
