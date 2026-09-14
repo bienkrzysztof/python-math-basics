@@ -788,3 +788,29 @@ def test_analyze_signals_total_return():
 
     assert result["crossover_total_return"] == pytest.approx(0.11)
     assert result["crossunder_total_return"] == pytest.approx(0.02)
+
+
+def test_analyze_signals_average_return():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+            "crossunder",
+            "crossunder",
+        ],
+        "future_return_3": [
+            0.10,
+            0.05,
+            -0.04,
+            -0.06,
+            0.08,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_average_return"] == pytest.approx(
+        (0.10 + 0.05 - 0.04) / 3
+    )
+    assert result["crossunder_average_return"] == pytest.approx(0.01)
