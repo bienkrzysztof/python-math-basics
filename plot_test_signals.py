@@ -207,6 +207,12 @@ def analyze_signals(signals):
 
         "crossover_return_median": crossover_returns.median(),
         "crossunder_return_median": crossunder_returns.median(),
+
+        "crossover_best_return": crossover_returns.max(),
+        "crossover_worst_return": crossover_returns.min(),
+
+        "crossunder_best_return": crossunder_returns.max(),
+        "crossunder_worst_return": crossunder_returns.min(),
     }
 
     return results
