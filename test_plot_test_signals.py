@@ -715,3 +715,25 @@ def test_analyze_signals_return_std():
         pd.Series([0.10, 0.05, -0.04]).std()
     )
     assert pd.isna(result["crossunder_return_std"])
+
+
+def test_analyze_signals_return_median():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+            "crossunder",
+        ],
+        "future_return_3": [
+            0.10,
+            0.05,
+            -0.04,
+            -0.06,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_return_median"] == pytest.approx(0.05)
+    assert result["crossunder_return_median"] == pytest.approx(-0.06)

@@ -204,6 +204,9 @@ def analyze_signals(signals):
 
         "crossover_return_std": crossover_returns.std(),
         "crossunder_return_std": crossunder_returns.std(),
+
+        "crossover_return_median": crossover_returns.median(),
+        "crossunder_return_median": crossunder_returns.median(),
     }
 
     return results
