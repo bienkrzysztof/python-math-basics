@@ -814,3 +814,30 @@ def test_analyze_signals_average_return():
         (0.10 + 0.05 - 0.04) / 3
     )
     assert result["crossunder_average_return"] == pytest.approx(0.01)
+
+
+def test_analyze_signals_win_and_loss_count():
+    signals = pd.DataFrame({
+        "signal": [
+            "crossover",
+            "crossover",
+            "crossover",
+            "crossover",
+            "crossunder",
+        ],
+        "future_return_3": [
+            0.10,
+            0.05,
+            -0.04,
+            0.00,
+            -0.06,
+        ],
+    })
+
+    result = analyze_signals(signals)
+
+    assert result["crossover_win_count"] == 2
+    assert result["crossover_loss_count"] == 1
+
+    assert result["crossunder_win_count"] == 0
+    assert result["crossunder_loss_count"] == 1

@@ -219,6 +219,12 @@ def analyze_signals(signals):
 
         "crossover_average_return": crossover_returns.mean(),
         "crossunder_average_return": crossunder_returns.mean(),
+
+        "crossover_win_count": (crossover_returns > 0).sum(),
+        "crossover_loss_count": (crossover_returns < 0).sum(),
+
+        "crossunder_win_count": (crossunder_returns > 0).sum(),
+        "crossunder_loss_count": (crossunder_returns < 0).sum(),
     }
 
     return results
